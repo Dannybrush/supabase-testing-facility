@@ -1,17 +1,20 @@
 <script lang="ts">
-    import { page } from '$app/stores';
     import { goto } from '$app/navigation';
-  
-    // Reactive statement: if the page's data includes a user, we assign it to 'user'.
-    $: user = $page.data.user;
-  
-    // A simple logout function; in a real app, you would call supabase.auth.signOut() here.
+    //let { logout } =$props()
     async function logout() {
-      // Example: await supabase.auth.signOut();
-      // For now, we simply navigate to the login page.
-      goto('/Unauthenticated/login');
+        const response = await fetch('/auth/logout', { method: 'POST' });
+
+        if (response.ok) {
+            location.reload(); // Refresh to reflect logout state
+        } else {
+            console.error('Logout failed');
+        }
     }
-  </script>
+  
+    let {session = null} = $props();
+    console.log("SESSION : ", session)
+
+</script>
   
   <nav class="navbar">
     <div class="nav-left">
@@ -19,15 +22,15 @@
     </div>
     <div class="nav-right">
       <a href="/products">Products</a>
-      {#if user}
+      {#if session?.user}
         <!-- Show user info and profile links if logged in -->
-        <span class="user-welcome">Welcome, {user.email}</span>
-        <a href="/Profile">Profile</a>
-        <a href="#" on:click|preventDefault={logout}>Logout</a>
+        <span class="user-welcome">Welcome, {session.user.email}</span>
+        <a href="/private/account">Profile</a>
+        <a href="/auth" onclick={(event) => { event.preventDefault(); logout(); }}>Logout</a>
       {:else}
         <!-- Otherwise, show login/signup links -->
-        <a href="/Unauthenticated/login">Login</a>
-        <a href="/Unauthenticated/signup">Sign Up</a>
+        <a href="/auth">Login</a>
+        <a href="/auth">Sign Up</a>
       {/if}
     </div>
   </nav>

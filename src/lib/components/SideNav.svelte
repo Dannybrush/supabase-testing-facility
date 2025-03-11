@@ -1,11 +1,20 @@
 <script>
-    let { logout } =$props()
+    //let { logout } =$props()
 	const links = [
 		{ name: 'Profile', href: '/profile' },
 		{ name: 'Settings', href: '/settings' },
 		{ name: 'Logout', href: '/logout' }
 	];
 
+    async function logout() {
+        const response = await fetch('/auth/logout', { method: 'POST' });
+
+        if (response.ok) {
+            location.reload();
+        } else {
+            console.error('Logout failed');
+        }
+    }
 </script>
 
 <nav class="side-nav">

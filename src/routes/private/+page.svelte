@@ -1,10 +1,9 @@
 <script lang="ts">
     import { invalidate } from '$app/navigation'
     import type { EventHandler } from 'svelte/elements'
-  
-    import type { PageData } from './$types'
-  
-    let { data } = $props()
+    import type { PageProps } from './$types';
+
+    let { data }: PageProps = $props();
     let { profiles, supabase, user } = $derived(data)
   
     const handleSubmit: EventHandler<SubmitEvent, HTMLFormElement> = async (evt) => {
@@ -34,6 +33,6 @@
   <form onsubmit={handleSubmit}>
     <label>
       Add a note
-      <input name="profile" type="text" />
+      <input name="note" type="text" />
     </label>
   </form>

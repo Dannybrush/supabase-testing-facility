@@ -7,7 +7,7 @@ export async function load({ locals }) {
     
     if (!session) {
         throw redirect(302, '/login'); // Ensure only authenticated users access this
-    
+    } 
     const { data: profile, error } = await supabase
         .from('profiles')
         .select('username')

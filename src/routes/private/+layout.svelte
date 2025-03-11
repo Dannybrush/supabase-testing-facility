@@ -3,6 +3,7 @@
     let { supabase } = $derived(data) //unpacking the supabase instance - if the original chasnges this is updated. 
     import  TitleBar  from '$lib/components/TitleBar.svelte';
     import SideNav from '$lib/components/SideNav.svelte';
+	import { invalidateAll } from '$app/navigation';
     
     const logout = async () => {
       console.log("signing out")
@@ -10,13 +11,14 @@
       if (error) {
         console.error(error)
       }
+      invalidateAll() // essentially refreshes the page and forces the redirect. 
     }
   </script>
   
   <div class="layout">
     <TitleBar title="My Application" username={data.username}/>
     <div class="main-container">
-      <SideNav {logout}/>
+      <SideNav/>
       <main>
         {@render children()}
       </main>

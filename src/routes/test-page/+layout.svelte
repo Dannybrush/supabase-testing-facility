@@ -1,9 +1,14 @@
+
 <script>
+    //import {data} from '$app/stores'
+    let {data, children } = $props()
+    let {supabase}  = $derived(data)
     import NavBar from '$lib/components/Nav.svelte';
-    export let session;
+    import { invalidateAll } from '$app/navigation';
+   let {session} = data;
 </script>
 
-<NavBar {session} />
+<NavBar session={session}  />
 
 <main>
     {#if session}

@@ -1,10 +1,8 @@
 import { supabase } from '$lib/supabase';
 import { redirect } from '@sveltejs/kit';
+import type { LayoutServerLoad } from './$types';
 
-export async function load({ locals }) {
-    const { session } = locals; // Session managed in hooks.server.ts
-
-    return {
-        session: session ?? null, // Send session to frontend
-    };
-}
+export const load: LayoutServerLoad = async ({ locals }) => {
+    console.log("locals.session", locals.session)
+    return { session: locals.session ?? null };
+};
